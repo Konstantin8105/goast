@@ -2,4 +2,30 @@
 
 Minimal goast viewer
 
-Main point - view in browser [*Dillo*](dillo.org)
+Main point - view in browser [*Dillo*](https://www.dillo.org)
+
+User Interface:
+```
++-------------------------+
+| localhost:9090          |
++-------------------------+
+|                         |
+| +---------------------+ |
+| | TEXTAREA            | |
+| | for enter           | |
+| | input Go code       | |
+| |                     | |
+| +---------------------+ |
+|                         |
+| +--------+              |
+| | BUTTON |              |
+| +--------+              |
+|                         |
+| Result(AST):            |
+| ______________________  |
+| ______________________  |
+| ______________________  |
+| ______________________  |
++-------------------------+
+
+```
