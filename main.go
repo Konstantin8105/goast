@@ -25,9 +25,7 @@ func main() {
 	flag.Parse()
 
 	http.HandleFunc("/", rootHandler)
-
-	err := http.ListenAndServe(*addr, nil)
-	if err != nil {
+	if err := http.ListenAndServe(*addr, nil); err != nil {
 		fmt.Println("err = ", err)
 	}
 }
@@ -36,37 +34,21 @@ var index string = `
 <html>
 <head>
 	<title>goast viewer</title>
-	<style>
-		p {
-			font-family:monospace;
-		}
-	</style>
+	<style>	p {	font-family:monospace;	}</style>
 </head>
 <body>
-
 <form action="/">
-	<pre>
-	<textarea name="gocode" rows="20" cols="80">
-%v
-	</textarea>
-	</pre>
+	<pre><textarea name="gocode" rows="20" cols="80">%v</textarea></pre>
 	<br>
 	<input type="submit">
 </form>
-
-<br>
-	<pre>
-%v
-	</pre>
-<br>
-
+<br><pre>%v</pre><br>
 </body>
 </html>
 `
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
-	err := r.ParseForm()
-	if err != nil {
+	if err := r.ParseForm(); err != nil {
 		w.Write([]byte(fmt.Sprintf("Error parse form = %v", err)))
 		return
 	}
@@ -103,23 +85,19 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		goto NextStep
 	}
-	_, err = file.WriteString(gocode)
-	if err != nil {
+	if _, err = file.WriteString(gocode); err != nil {
 		goto NextStep
 	}
 	filename = file.Name()
-	err = file.Close()
-	if err != nil {
+	if err = file.Close(); err != nil {
 		goto NextStep
 	}
 
-	_, err = exec.Command("gofmt", "-w", filename).Output()
-	if err != nil {
+	if _, err = exec.Command("gofmt", "-w", filename).Output(); err != nil {
 		goto NextStep
 	}
 
-	dat, err = ioutil.ReadFile(filename)
-	if err != nil {
+	if dat, err = ioutil.ReadFile(filename); err != nil {
 		goto NextStep
 	}
 	log.Printf("gofmt for Go code\n")
