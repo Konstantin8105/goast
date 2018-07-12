@@ -45,15 +45,19 @@ var index string = `
 <body>
 
 <form action="/">
+	<pre>
 	<textarea name="gocode" rows="20" cols="80">
 %v
 	</textarea>
+	</pre>
 	<br>
 	<input type="submit">
 </form>
 
 <br>
+	<pre>
 %v
+	</pre>
 <br>
 
 </body>
