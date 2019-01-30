@@ -40,6 +40,9 @@ var index string = `
 <form action="/">
 	<pre><textarea name="gocode" rows="20" cols="80">%v</textarea></pre>
 	<br>
+	<input type="checkbox" name="expression">Is Go expression
+	<br>
+	<br>
 	<input type="submit">
 </form>
 <br><pre>%v</pre><br>
@@ -76,6 +79,18 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	result := "Undefined"
+
+	if st := r.Form["expression"]; len(st) == 1 && st[0] == "on" {
+		a, err := parser.ParseExpr(gocode)
+		if err != nil {
+			w.Write([]byte(fmt.Sprintln(err)))
+			return
+		}
+		var buf bytes.Buffer
+		ast.Fprint(&buf, token.NewFileSet(), a, ast.NotNilFilter)
+		w.Write(buf.Bytes())
+		return
+	}
 
 	// gofmt gocode
 	var dat []byte
